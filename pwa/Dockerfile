@@ -6,7 +6,7 @@
 ARG NODE_VERSION=14
 
 # "common" stage
-FROM node:${NODE_VERSION}-alpine AS api_platform_pwa_common
+FROM docker.io/node:${NODE_VERSION}-alpine AS api_platform_pwa_common
 
 EXPOSE 3000
 
@@ -25,7 +25,7 @@ VOLUME /usr/src/pwa/node_modules
 
 # "development" stage
 # depends on the "common" stage above
-FROM api_platform_pwa_common AS api_platform_pwa_dev
+FROM docker.io/api_platform_pwa_common AS api_platform_pwa_dev
 
 ENV API_PLATFORM_CLIENT_GENERATOR_OUTPUT .
 RUN yarn global add @api-platform/client-generator
@@ -35,7 +35,7 @@ CMD ["yarn", "dev"]
 
 # "build" stage
 # depends on the "common" stage above
-FROM api_platform_pwa_common AS api_platform_pwa_prod
+FROM docker.io/api_platform_pwa_common AS api_platform_pwa_prod
 
 ENV NODE_ENV production
 ARG NEXT_PUBLIC_ENTRYPOINT
